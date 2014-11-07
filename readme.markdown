@@ -1,6 +1,7 @@
-# attr-bind
+# attr-bind-change
 
-2-way dom element binding
+This is just a fork of [substack](https://github.com/substack)'s `attr-bind` except that it only listens to `onchange` events and
+not on `keyup` and `keydown`.
 
 # example
 

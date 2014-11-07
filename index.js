@@ -4,14 +4,14 @@ module.exports = function () {
     var elements = {};
     var values = {};
     var scope, sc;
-    
+
     return function (elem, key) {
         if (!scope) scope = this.scope || {};
         var g;
-        
+
         if (!elements[key]) elements[key] = [];
         elements[key].push(elem);
-        
+
         if (has(scope, key) && typeof scope[key] !== 'function') {
             throw new Error('scope at key: ' + key + ' is not a function');
         }
@@ -30,35 +30,33 @@ module.exports = function () {
             scope[key].set(get(elem));
             sc = scope[key];
         }
-        
+
         if (!sc) return;
-        
+
         sc(function (value) {
             set(elem, value);
         });
         elements[key].push(sc);
-        
+
         if (sc.set) {
             sc.set(get(elem));
         }
         else {
             sc(get(elem));
         }
-        
+
         if (typeof elem === 'function') {
             elem(onchange);
         }
         else {
             elem.addEventListener('change', onchange);
-            elem.addEventListener('keydown', onchange);
-            elem.addEventListener('keyup', onchange);
         }
-        
+
         function onchange () {
             var x = get(elem);
             if (x === values[key]) return;
             values[key] = x;
-            
+
             var elems = elements[key];
             for (var i = 0; i < elems.length; i++) {
                 if (elems[i] === elem) continue;
@@ -66,7 +64,7 @@ module.exports = function () {
             }
         }
     };
-    
+
     function set (elem, value) {
         if (value === undefined) value = '';
         if (typeof value !== 'string') value = String(value);
@@ -74,7 +72,7 @@ module.exports = function () {
             return elem.set(value);
         }
         if (typeof elem === 'function') return elem(value);
-        
+
         if (elem.value !== undefined) {
             elem.value = value;
         }
@@ -90,15 +88,15 @@ module.exports = function () {
             elem.appendChild(txt);
         }
     }
-    
+
     function get (elem) {
         if (typeof elem === 'function') return elem();
-        
+
         if (elem.value !== undefined) return elem.value;
         if (editable(elem)) return elem.value;
         return elem.textContent || elem.innerText;
     }
-    
+
     function editable (elem) {
         if (typeof elem === 'function') return false;
         if (!elem || !elem.tagName) return false;

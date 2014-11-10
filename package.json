@@ -14,9 +14,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/substack/attr-bind.git"
+    "url": "git://github.com/maxgfeller/attr-bind-change.git"
   },
-  "homepage": "https://github.com/substack/attr-bind",
+  "homepage": "https://github.com/maxgfeller/attr-bind-change",
   "keywords": [
     "2-way",
     "binding",
